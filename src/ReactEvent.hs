@@ -2,6 +2,7 @@ module ReactEvent where
 
 import DataStructures
 import Graphics.Gloss.Interface.Pure.Game
+import Snake (directionSnake)
 
 reactEvent :: Event -> State -> State
 reactEvent (EventResize size)                        s = s{winSize = size}
@@ -23,7 +24,7 @@ reactEvent (EventKey (Char 'l')            Down _ _) s = changeDirection s East
 reactEvent _ s = s
 
 changeDirection :: State -> Move -> State
-changeDirection s m | isOposite (action s) m = s
+changeDirection s m | isOposite (directionSnake(snake s)) m = s
                     | otherwise              = s{action = m}
 
 isOposite:: Move -> Move -> Bool

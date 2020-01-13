@@ -6,6 +6,7 @@ import Data.Maybe
 import Data.List
 import Graphics.Gloss.Data.Picture
 import Graphics.Gloss.Data.Color
+import Snake
 
 drawState :: State -> Picture
 drawState s | (menu s) == MenuPlay = drawStatePlay s
@@ -15,10 +16,10 @@ drawState s | (menu s) == MenuPlay = drawStatePlay s
 drawStatePlay :: State -> Picture
 drawStatePlay s = Pictures[ drawMap side (grid s), drawFruit side (grid s), drawSnake side (snake s), debugText]
     where
-        n = length $ grid s
-        debugText = Translate (-200) (-500) $ scale 0.5 0.5 $ text $ show (head (snake s)) ++ show(filter (isFruit (grid s)) $ concat [[(x,y) | x <- [0..n-1] ] | y <- [0..n-1]])
-
-        side = 10
+        debugText = Translate (-200) 0 $ scale 1 1 $ text $ show $ directionSnake $ snake s
+        side = 0.4 * min bv bh
+        bv = fromIntegral(fst(winSize s)) / fromIntegral(length(grid s))
+        bh = fromIntegral(snd(winSize s)) / fromIntegral(length(head(grid s)))
 
 drawSnake:: Float -> Snake -> Picture
 drawSnake s m = Pictures $ map (drawBlock red s) m

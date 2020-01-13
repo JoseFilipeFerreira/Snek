@@ -24,10 +24,10 @@ moveSnake s m | m == North = (x, y+1) : s
         (x, y) = head s
 
 directionSnake :: Snake -> Move
-directionSnake s | x == 0 && y >  0 = North 
-                 | x == 0 && y <  0 = South
-                 | x <  0 && y == 0 = West
-                 | x >  0 && y == 0 = East
+directionSnake s | x == 0 && y <  0 = North 
+                 | x == 0 && y >  0 = South
+                 | x >  0 && y == 0 = West
+                 | x <  0 && y == 0 = East
     where
         x = fst(s !! 1) - fst(s !! 0)
         y = snd(s !! 1) - snd(s !! 0)
