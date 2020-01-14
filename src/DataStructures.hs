@@ -10,7 +10,7 @@ data State = State
     }
   deriving (Eq, Show)
 
-data Menu = MenuPlay | MenuLost
+data Menu = MenuPlay | MenuPause | MenuLost
     deriving (Eq, Show)
 
 data Piece = Clear | Wall | Fruit

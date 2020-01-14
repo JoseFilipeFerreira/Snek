@@ -1,6 +1,7 @@
 module Grid where
 
 import DataStructures
+import Data.Maybe
 import System.Random
 import System.IO.Unsafe
 
@@ -8,11 +9,11 @@ generateBasicGrid:: Int -> Grid
 generateBasicGrid n = [replicate n Wall] ++ replicate (n-2) ([Wall] ++ (replicate (n-2) (Clear)) ++ [Wall]) ++ [replicate n Wall]
 
 addFruit :: Grid -> Grid
-addFruit g = updateMatrix (unsafePerformIO(randomRIO(1, (length g) - 1)) ,unsafePerformIO(randomRIO(1, (length g) - 1))) Fruit g
+addFruit g = updateMatrix (unsafePerformIO(randomRIO(1, (length g) - 2)) ,unsafePerformIO(randomRIO(1, (length g) - 2))) Fruit g
 
-updateGrid :: Grid -> Snake -> Grid
-updateGrid g s | isFruit g (head s) = addFruit $ updateMatrix (head s) Clear g
-               | otherwise          = g
+updateGrid :: Grid -> Snake -> Maybe Grid
+updateGrid g s | isFruit g (head s) = Just $ addFruit $ updateMatrix (head s) Clear g
+               | otherwise          = Nothing
 
 isFruit::Grid -> Position -> Bool
 isFruit g p = Fruit == getPiece g p

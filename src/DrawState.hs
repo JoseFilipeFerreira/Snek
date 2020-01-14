@@ -9,15 +9,16 @@ import Graphics.Gloss.Data.Color
 import Snake
 
 drawState :: State -> Picture
-drawState s | (menu s) == MenuPlay = drawStatePlay s
+drawState s | (menu s) == MenuPlay  = drawStatePlay s
+            | (menu s) == MenuPause = Pictures[drawStatePlay s, Translate (-200) 0 $ scale 1 1 $ text $ "PAUSE"]
             | otherwise = Translate (-200) 0 $ scale 1 1 $ text $ "Game Over"
 
 -- | Draw the current State
 drawStatePlay :: State -> Picture
-drawStatePlay s = Pictures[ drawMap side (grid s), drawFruit side (grid s), drawSnake side (snake s), debugText]
+drawStatePlay s = Scale 0.4 0.4 $ Pictures[ drawMap side (grid s), drawFruit side (grid s), drawSnake side (snake s), debugText]
     where
-        debugText = Translate (-200) 0 $ scale 1 1 $ text $ show $ directionSnake $ snake s
-        side = 0.4 * min bv bh
+        debugText = Translate (-200) 0 $ scale 1 1 $ text $ show $ points s
+        side = min bv bh
         bv = fromIntegral(fst(winSize s)) / fromIntegral(length(grid s))
         bh = fromIntegral(snd(winSize s)) / fromIntegral(length(head(grid s)))
 

@@ -15,8 +15,8 @@ main = do initial <- initialState 50
 
 game:: State -> IO()
 game s = play
-        FullScreen
-        (greyN 0.8)
+        (InWindow "SnEk" (1280, 720) (0, 0))
+        (greyN 0.1)
         10
         s
         drawState

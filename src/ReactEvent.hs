@@ -21,11 +21,18 @@ reactEvent (EventKey (Char 'h')            Down _ _) s = changeDirection s West
 reactEvent (EventKey (Char 'j')            Down _ _) s = changeDirection s South
 reactEvent (EventKey (Char 'k')            Down _ _) s = changeDirection s North
 reactEvent (EventKey (Char 'l')            Down _ _) s = changeDirection s East
+-- Pause
+reactEvent (EventKey (Char 'p')            Down _ _) s = togglePause s
 reactEvent _ s = s
 
 changeDirection :: State -> Move -> State
 changeDirection s m | isOposite (directionSnake(snake s)) m = s
                     | otherwise              = s{action = m}
+
+togglePause :: State -> State
+togglePause s | menu s == MenuPause = s{menu = MenuPlay}
+              | menu s == MenuPlay  = s{menu = MenuPause}
+              | otherwise           = s
 
 isOposite:: Move -> Move -> Bool
 isOposite North South = True
