@@ -6,13 +6,14 @@ import Grid  (updateGrid)
 import Data.Maybe
 
 reactTime :: Float -> State -> State
-reactTime tick s | menu s == MenuPause               = s
-                 | isJust newSnake && isJust newGrid = s{ snake = fromJust newSnake
-                                                        , grid = fromJust newGrid
-                                                        , points = 1 + points s
-                                                        }
-                 | isJust newSnake                   = s{ snake = fromJust newSnake}
+reactTime tick s | menu s == MenuPause                  = s
+                 | isJust newSnake && isJust newGridGen = s{ snake = fromJust newSnake
+                                                           , grid = fst $ fromJust newGridGen
+                                                           , rng = snd $ fromJust newGridGen
+                                                           , points = 1 + points s
+                                                           }
+                 | isJust newSnake                      = s{ snake = fromJust newSnake}
                  | otherwise = s{menu = MenuLost}
     where
-        newSnake   = contextualMove (grid s) (snake s) (action s)
-        newGrid = updateGrid (grid s) (fromJust newSnake)
+        newSnake = contextualMove (grid s) (snake s) (action s)
+        newGridGen  = updateGrid (rng s) (grid s) (fromJust newSnake)

@@ -3,6 +3,7 @@ module Main where
 import Graphics.Gloss.Data.Picture
 import Graphics.Gloss.Interface.Pure.Game
 import DataStructures
+import System.Random
 import Grid       (addFruit, generateBasicGrid)
 import Snake      (initialSnake)
 import ReactEvent (reactEvent)
@@ -24,11 +25,15 @@ game s = play
         reactTime
 
 initialState :: Int -> IO State
-initialState s = do  
-                return State { grid = addFruit $ generateBasicGrid s
+initialState s = do
+                gen <- getStdGen
+                newStdGen
+                genT <- getStdGen
+                return State { grid = fst $ addFruit genT $ generateBasicGrid s
                              , snake = initialSnake s
                              , action = East
                              , points = 0
                              , menu = MenuPlay
+                             , rng = gen
                              , winSize = (0, 0)
                              }

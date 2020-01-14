@@ -1,14 +1,17 @@
 module DataStructures where
 
+import System.Random
+
 data State = State
     { grid   :: Grid
     , snake  :: Snake
     , action :: Move
     , points :: Int
     , menu   :: Menu
+    , rng    :: StdGen
     , winSize :: (Int, Int)
     }
-  deriving (Eq, Show)
+  deriving (Show)
 
 data Menu = MenuPlay | MenuPause | MenuLost
     deriving (Eq, Show)
